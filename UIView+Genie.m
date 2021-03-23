@@ -231,13 +231,10 @@ static const int BCTrapezoidWinding[4][4] = {
                                          secondBezier:second
                                        finalRectDepth:endRectDepth];
         
-        if (trs.count > 0) {
-            [trs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                [(NSMutableArray *)transforms[idx] addObject:obj];
-            }];
-        } else {
-            return; 
-        }
+        
+        [trs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [(NSMutableArray *)transforms[idx] addObject:obj];
+        }];
         
         
     }
@@ -360,12 +357,8 @@ static const int BCTrapezoidWinding[4][4] = {
     CGFloat rectPartStart = first.b.v[axis];
     CGFloat sign = isEdgeNegative(edge) ? -1.0 : 1.0;
 
-    @try {
-        NSAssert(sign*(startPosition - rectPartStart) <= 0.0, @"invalid position");
-    } @catch (NSException* exception) {
-        NSLog(@"Genie position error:%@",exception);
-        return transformations;
-    }
+    NSAssert(sign*(startPosition - rectPartStart) <= 0.0, @"invalid position");
+  
     
     __block CGFloat position = startPosition;
     __block BCTrapezoid trapezoid = {0};
